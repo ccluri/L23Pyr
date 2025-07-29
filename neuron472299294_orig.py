@@ -18,9 +18,7 @@ class Neuron472299294:
         self._name = name
         # load the morphology
         from load_swc import load_swc
-        # load_swc('Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m.swc', self,
-        #          use_axon=False, xshift=x, yshift=y, zshift=z)
-        load_swc('Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m_shrinked.swc', self,
+        load_swc('Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m.swc', self,
                  use_axon=False, xshift=x, yshift=y, zshift=z)
 
         # custom axon (works because dropping axon during import)
@@ -28,7 +26,7 @@ class Neuron472299294:
         self.axon = [h.Section(cell=self, name='axon[0]'),
                      h.Section(cell=self, name='axon[1]')]
         for sec in self.axon:
-            sec.L = 30*0.5
+            sec.L = 30
             sec.diam = 1
             sec.nseg = 1
         self.axon[0].connect(self.soma[0](0.5))
@@ -45,7 +43,6 @@ class Neuron472299294:
                 val = max(0.1, val)
             setattr(self, 'f_'+key, val)
         self._set_mechanism_parameters()
-
 
     def init_factors(self):
         self.f_cm = 1
@@ -70,7 +67,7 @@ class Neuron472299294:
         zz.loc(self.soma[0](0.5))
         zz.compute(0)
         rn = zz.input(self.soma[0](0.5))
-        # print('Input resistance is ', rn, 'megohms')
+        print('Input resistance is ', rn, 'megohms')
         return
         
     def __str__(self):
@@ -92,7 +89,7 @@ class Neuron472299294:
         from neuron import h
         for sec in self.all:
             sec.Ra = 167.07*self.f_Ra
-            sec.e_pas =  -85 #-90.582359314 #-80  
+            sec.e_pas =  -90.582359314
         for sec in self.apic:
             sec.cm = 2.17*self.f_cm
             sec.g_pas = 7.76313565885e-05*self.f_g_pas
@@ -104,8 +101,8 @@ class Neuron472299294:
             sec.g_pas = 1.08526630687e-05*self.f_g_pas
         for sec in self.soma:
             sec.cm = 1.0*self.f_cm
-            sec.ena =  35 #53.0 
-            sec.ek = -107 #107.0  # 95
+            sec.ena =  53.0 
+            sec.ek = 107.0
             sec.gbar_Im = 1.23992e-05*self.f_gbar_Im
             sec.gbar_Ih = 0.000331224*self.f_gbar_Ih
             sec.gbar_NaTs = 0.452286*self.f_gbar_NaTs
@@ -119,7 +116,7 @@ class Neuron472299294:
             sec.gamma_CaDynamics = 0.000993274
             sec.decay_CaDynamics = 845.244
             sec.g_pas = 0.000199625*self.f_g_pas
-        # self._print_rn()  # print the Input resistance
+        self._print_rn()  # print the Input resistance
     
     def _discretize_model(self):
         for sec in self.all:

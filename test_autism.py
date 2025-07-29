@@ -16,6 +16,7 @@ import argparse
 import ast
 import numpy as np
 from neuron472299294 import Neuron472299294
+from threshold_crossing import count_spikes
 import matplotlib.pyplot as plt
 
 
@@ -77,6 +78,17 @@ def make_plots(ax, results):
     ax.set_ylabel('Membrane potential')
     return ax
 
+def make_plots_fi(ax, results):
+    ffs = []
+    for res in results:
+        tt, vv, amp = res
+        ffs.append(count_spikes(vv))
+    ax.plot(res[-1], ffs)
+    ax.set_ylim(-1, 15)
+    ax.set_xlabel('Clamp current (pA)')
+    ax.set_ylabel('Spikes')
+    return ax
+        
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Default conditions of the protocol')

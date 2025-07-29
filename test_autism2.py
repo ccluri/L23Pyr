@@ -87,9 +87,9 @@ def exp_fit(x, a, b, c):
 
 
 def make_plots(ax, results):
-    for res in results[3:]:
+    for res in results[2:]:
         tt, vv, amp = res
-        #print(np.mean(vv[np.where(tt>1) & np.where(tt<1.2)]))
+       #print(np.mean(vv[np.where(tt>1) & np.where(tt<1.2)]))
         ax.plot(tt, vv, label=str(amp)+' pA')
     ax.set_ylim(-80, 50)
     ax.legend()
@@ -136,6 +136,7 @@ if __name__ == '__main__':
     coef = np.polyfit(xx, yy, 1)
     poly1d_fn = np.poly1d(coef)
     print('Rin, tau', coef[0], popt[1])
+    print('RMP (mV)', np.mean(np.array(results[2][1])))
 
     ax1 = plt.subplot(132)
     ax1.plot(tt, y_tau[1])

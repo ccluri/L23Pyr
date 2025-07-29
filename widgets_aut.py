@@ -15,6 +15,16 @@ pick_cm = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                               orientation='horizontal',
                               readout=True,
                               style=style,layout=widgets.Layout(width='400px'))
+pick_cm_range = widgets.FloatRangeSlider(value=[0.5, 1.5],
+                                         min=0.1, max=5, step=0.1,
+                                         description='cm:',
+                                         disabled=False,
+                                         continuous_update=False,
+                                         orientation='horizontal',
+                                         readout=True,
+                                         readout_format='.1f',
+                                         style=style,layout=widgets.Layout(width='400px'))
+
 pick_gpas = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                  description='g_pas:',
                                  disabled=False,
@@ -23,6 +33,16 @@ pick_gpas = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                  readout=True,
                                  style=style,
                                  layout=widgets.Layout(width='400px'))
+pick_gpas_range = widgets.FloatRangeSlider(value=[0.5, 1.5],
+                                           min=0.1, max=5, step=0.1,
+                                           description='g_pas:',
+                                           disabled=False,
+                                           continuous_update=False,
+                                           orientation='horizontal',
+                                           readout=True,
+                                           readout_format='.1f',
+                                           style=style,layout=widgets.Layout(width='400px'))
+
 pick_Ra = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                               description='Ra:',
                               disabled=False,
@@ -31,8 +51,15 @@ pick_Ra = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                               readout=True,
                               style=style,
                               layout=widgets.Layout(width='400px'))
-
-
+pick_Ra_range = widgets.FloatRangeSlider(value=[0.5, 1.5],
+                                         min=0.1, max=5, step=0.1,
+                                         description='Ra:',
+                                         disabled=False,
+                                         continuous_update=False,
+                                         orientation='horizontal',
+                                         readout=True,
+                                         readout_format='.1f',
+                                         style=style,layout=widgets.Layout(width='400px'))
 # Active Na currents
 pick_gbar_NaTs = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                      description='gbar_NaTs:',
