@@ -16,6 +16,7 @@ import argparse
 import ast
 import numpy as np
 from scipy.optimize import curve_fit
+from threshold_crossing import count_spikes
 from neuron472299294_250811 import Neuron472299294
 import matplotlib.pyplot as plt
 
@@ -36,13 +37,13 @@ ichs_pas = ['pas']
 
 junction_potential = -14.0
 
-def demo(iapp, update_dict={}):
+def demo(iapp, update_dict={}, all_rev=False):
     """demo program performs current clamp experiments"""
     from neuron import h
     h.celsius = 34.0
-    cell = Neuron472299294(name='neuron', shrink_by=0.8)
+    cell = Neuron472299294(name='neuron', shrink_by=0.7)
     #update values
-    cell.update_factors(update_dict)
+    cell.update_factors(update_dict, all_rev=all_rev)
     
     # clamp
     ic = h.IClamp(0.5, sec=cell.soma[0])
@@ -127,8 +128,29 @@ def make_curr_plots(ax, results, curr='all'):
     return ax
 
 
-def make_plots(ax, results):
+def show_ficurve(ax, results, defs=None, defs_ff=None):
+    ffs = []
+    cur_vals = []
     for res in results:
+        tt, vv, ichs, amp = res
+        cur_vals.append(amp)
+        ffs.append(count_spikes(np.array(vv)))
+    if defs:
+        ax.plot(defs, defs_ff, label='Recording', c='k',
+                marker='o')
+    ax.plot(cur_vals, ffs, label='Simulation', c='k',
+            linestyle='dashed', marker='P')
+    ax.set_ylim(-1, 30)
+    ax.set_xlim(0, 50)
+    return ax
+
+
+def make_plots(ax, results, all_plots=False):
+    if all_plots:
+        new_results = results
+    else:
+        new_results = results[3:]
+    for res in new_results:
         tt, vv, ichs, amp = res
        #print(np.mean(vv[np.where(tt>1) & np.where(tt<1.2)]))
         ax.plot(tt, vv, label=str(amp)+' pA')
@@ -171,11 +193,11 @@ if __name__ == '__main__':
     iclamps_rev = [-15, -10, 0]
     iclamps = iclamps_rev + iclamps   # add for computing inp resistance
     print(all_vals)
-    cell, results, clamp = demo(iclamps, update_dict=all_vals)
+    cell, results, clamp = demo(iclamps, update_dict=all_vals, all_rev=True)
 
     fig = plt.figure(figsize=(40, 20))
     ax1 = plt.subplot(231)
-    make_plots(ax1, results)
+    make_plots(ax1, results, all_plots=False)
 
     xx, yy, tt, y_tau = comp_passive_props(results)
     popt, pcov = curve_fit(exp_fit, tt-0.2, y_tau[1])
@@ -189,9 +211,12 @@ if __name__ == '__main__':
     ax2.plot(tt, exp_fit(tt-0.2, *popt), 'g--')
 
     ax3 = plt.subplot(233)
-    ax3.plot(xx, yy, 'yo', xx, poly1d_fn(xx), '--k')
-
-
+    #ax3.plot(xx, yy, 'yo', xx, poly1d_fn(xx), '--k')
+    #ax3 = show_ficurve(ax3, results[3:])
+    currs=[10, 15, 20, 25, 30, 35]
+    ffs = [0, 0, 0, 8, 11, 11]
+    ax3 = show_ficurve(ax3, results[3:], defs=currs, defs_ff=ffs)
+    
     ax4 = plt.subplot(234)
     make_curr_plots(ax4, results)
 
