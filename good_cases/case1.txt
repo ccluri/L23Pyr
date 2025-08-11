@@ -1,0 +1,8 @@
+python test_autism3.py -g_pas=0.5 -Ra=1 -cm=0.38 -IC='[5, 15, 25]' -ena=30 -e_pas=-75 -gbar_Nap=0.2 -gbar_NaTs=0.7
+{'e_pas': -75.0, 'ena': 30.0, 'ek': -107.0, 'Ra': 1.0, 'g_pas': 0.5, 'cm': 0.38, 'gbar_NaTs': 0.7, 'gbar_Nap': 0.2, 'gbar_K_P': 1, 'gbar_K_T': 1, 'gbar_Kv3_1': 1, 'gbar_SK': 1, 'gbar_Ca_HVA': 1, 'gbar_Ca_LVA': 1, 'gbar_Ih': 1, 'gbar_Im': 1}
+NEURON: unable to open font "*helvetica-medium-r-normal*--14*", using "fixed"
+Shrunk by 0.8
+Using file Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m_shrinked_0.8.swc
+Shrunk axon by 0.5
+Rin, tau 0.8261026528176454 59.61200283041515
+RMP (mV) -61.014751769308475

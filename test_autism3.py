@@ -26,13 +26,21 @@ def arg_as_list(s):
         raise argparse.ArgumentTypeError("Argument \"%s\" is not a list" % (s))
     return v
 
+ichs = [u'Ca_HVA', u'Ca_LVA', u'Ih', u'Im', u'K_P',
+        u'K_T', u'Kv3_1', u'NaTs', u'Nap', u'SK', u'pas']
+ichs_k = ['K_P', 'K_T', 'Kv3_1', 'SK', 'Im']
+ichs_na = ['NaTs', 'Nap']
+ichs_ca = ['Ca_HVA', 'Ca_LVA']
+ichs_ih = ['Ih']
+ichs_pas = ['pas']
+
 junction_potential = -14.0
 
 def demo(iapp, update_dict={}):
     """demo program performs current clamp experiments"""
     from neuron import h
     h.celsius = 34.0
-    cell = Neuron472299294(name='neuron')
+    cell = Neuron472299294(name='neuron', shrink_by=0.8)
     #update values
     cell.update_factors(update_dict)
     
@@ -46,10 +54,22 @@ def demo(iapp, update_dict={}):
     t.record(h._ref_t)
     v = h.Vector()
     v.record(cell.soma[0](0.5)._ref_v)
-    
-    t_vals = []
-    v_vals = []
-    curr_vals = []
+
+    ich_currs = {}
+    for ich in ichs:
+        ich_currs[ich] = h.Vector()
+        if ich in ichs_k:
+            curr_str = 'ik'
+        elif ich in ichs_na:
+            curr_str = 'ina'
+        elif ich in ichs_ca:
+            curr_str = 'ica'
+        elif ich in ichs_ih:
+            curr_str = 'ihcn'
+        else: # passive
+            curr_str = 'i'
+        ich_currs[ich].record(eval('cell.soma[0](0.5).' + ich
+                                   + '._ref_' + curr_str))
     
     # procedure for doing and plotting each simulation
     def do_current_clamp_experiment(amp):   
@@ -59,13 +79,13 @@ def demo(iapp, update_dict={}):
         h.dt = 0.0125
         h.tstop = 1500
         h.continuerun(h.tstop)
-        return t / 1000, v - junction_potential, [ic.delay, ic.dur, h.tstop]
+        return t / 1000, v - junction_potential, ich_currs, [ic.delay, ic.dur, h.tstop]
 
     # run the experiments, store the results
     results = []
     for ii, amp in enumerate(iapp):
-        tt, vv, clamp = do_current_clamp_experiment(amp)
-        results.append([tt, vv, amp])
+        tt, vv, ich_currs, clamp = do_current_clamp_experiment(amp)
+        results.append([tt, vv, ich_currs, amp])
     return cell, results, clamp
 
 def comp_passive_props(results):
@@ -73,7 +93,7 @@ def comp_passive_props(results):
     yy = []
     y_tau = []
     for res in results[:3]:
-        tt, vv, amp = res
+        tt, vv, ich, amp = res
         xx.append(amp)
         t_arr = np.array(tt)
         v_arr = np.array(vv)
@@ -86,9 +106,30 @@ def exp_fit(x, a, b, c):
     return a*np.exp(-b*x) + c
 
 
+def make_curr_plots(ax, results, curr='all'):
+    for res in results[-1:]:
+        tt, vv, ich, amp = res
+        if curr == 'all':
+            for ic in ichs: 
+                ax.plot(tt, ich[ic], label=ic)
+        elif curr == 'nak':
+            for ic in ichs_na + ichs_k + ichs_pas:
+                ax.plot(tt, ich[ic], label=ic)
+        elif curr == 'ca':
+            for ic in ichs_ca: 
+                ax.plot(tt, ich[ic], label=ic)
+                    
+    #ax.set_ylim(-80, 50)
+    ax.legend(frameon=False, ncols=5)
+    ax.set_xlabel('Time (second)')
+    ax.set_ylabel('Current')
+    ax.set_xlim(0.1, 1.3)
+    return ax
+
+
 def make_plots(ax, results):
     for res in results[2:]:
-        tt, vv, amp = res
+        tt, vv, ichs, amp = res
        #print(np.mean(vv[np.where(tt>1) & np.where(tt<1.2)]))
         ax.plot(tt, vv, label=str(amp)+' pA')
     ax.set_ylim(-80, 50)
@@ -132,8 +173,9 @@ if __name__ == '__main__':
     print(all_vals)
     cell, results, clamp = demo(iclamps, update_dict=all_vals)
 
-    ax = plt.subplot(131)
-    make_plots(ax, results)
+    fig = plt.figure(figsize=(40, 20))
+    ax1 = plt.subplot(231)
+    make_plots(ax1, results)
 
     xx, yy, tt, y_tau = comp_passive_props(results)
     popt, pcov = curve_fit(exp_fit, tt-0.2, y_tau[1])
@@ -142,11 +184,22 @@ if __name__ == '__main__':
     print('Rin, tau', coef[0], popt[1])
     print('RMP (mV)', np.mean(np.array(results[2][1])))
 
-    ax1 = plt.subplot(132)
-    ax1.plot(tt, y_tau[1])
-    ax1.plot(tt, exp_fit(tt-0.2, *popt), 'g--')
+    ax2 = plt.subplot(232)
+    ax2.plot(tt, y_tau[1])
+    ax2.plot(tt, exp_fit(tt-0.2, *popt), 'g--')
 
-    ax2 = plt.subplot(133)
-    ax2.plot(xx, yy, 'yo', xx, poly1d_fn(xx), '--k')
+    ax3 = plt.subplot(233)
+    ax3.plot(xx, yy, 'yo', xx, poly1d_fn(xx), '--k')
+
+
+    ax4 = plt.subplot(234)
+    make_curr_plots(ax4, results)
+
+    ax5 = plt.subplot(235)
+    make_curr_plots(ax5, results, curr='nak')
+
+    ax6 = plt.subplot(236)
+    make_curr_plots(ax6, results, curr='ca')
+    #plt.get_current_fig_manager().full_screen_toggle()
     plt.show()
     

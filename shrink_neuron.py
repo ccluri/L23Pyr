@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 
+shrink_by = 0.75
 fname = 'Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m.swc'
 #fname = 'test.swc'
-nfname = fname[:-4] + '_shrinked.swc'
+nfname = fname[:-4] + '_shrinked_' + str(shrink_by) + '.swc'
 data = pd.read_csv(fname, names=['id', 'type', 'x', 'y', 'z', 'r', 'pid'],
                    skiprows=3, delimiter=' ')
 
@@ -61,5 +62,5 @@ def shrink_surfarea(data, new_data, factor):
         f.writelines(lines)
     return new_data
 
-new_data = shrink_surfarea(data, new_data, 0.4)
+new_data = shrink_surfarea(data, new_data, shrink_by)
 

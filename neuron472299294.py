@@ -6,7 +6,7 @@ A demo is available by running:
     python -i mosinit.py
 '''
 class Neuron472299294:
-    def __init__(self, name="Neuron472299294", x=0, y=0, z=0):
+    def __init__(self, name="Neuron472299294", x=0, y=0, z=0, shrink_by=None):
         '''Instantiate Neuron472299294.
         
         Parameters:
@@ -18,9 +18,16 @@ class Neuron472299294:
         self._name = name
         # load the morphology
         from load_swc import load_swc
-        # load_swc('Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m.swc', self,
-        #          use_axon=False, xshift=x, yshift=y, zshift=z)
-        load_swc('Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m_shrinked.swc', self,
+        if shrink_by is None:
+            morph_fname = 'Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m.swc'
+            shrink_by = 1.
+        else:
+            morph_fname = 'Rorb-IRES2-Cre-D_Ai14_IVSCC_-168052.03.02.01_397999191_m_shrinked_' + str(shrink_by) +'.swc'
+        shrink_axon_by = 0.5
+        print('Shrunk by', shrink_by)
+        print('Using file', morph_fname)
+        print('Shrunk axon by', shrink_axon_by)
+        load_swc(morph_fname, self,
                  use_axon=False, xshift=x, yshift=y, zshift=z)
 
         # custom axon (works because dropping axon during import)
@@ -28,8 +35,8 @@ class Neuron472299294:
         self.axon = [h.Section(cell=self, name='axon[0]'),
                      h.Section(cell=self, name='axon[1]')]
         for sec in self.axon:
-            sec.L = 30*0.5
-            sec.diam = 1
+            sec.L = 30*shrink_axon_by
+            sec.diam = 1*shrink_axon_by
             sec.nseg = 1
         self.axon[0].connect(self.soma[0](0.5))
         self.axon[1].connect(self.axon[0](1))
@@ -40,11 +47,17 @@ class Neuron472299294:
         self._set_mechanism_parameters()
 
     def update_factors(self, f_dict):
+        n_dict = {}
+        n_dict['e_pas'] =  f_dict.pop('e_pas')
+        n_dict['ena'] =  f_dict.pop('ena')
+        n_dict['ek'] =  f_dict.pop('ek')
         for key, val in f_dict.items():
             if key in ['cm', 'Ra', 'g_pas']:  # passive prop > 0
                 val = max(0.1, val)
             setattr(self, 'f_'+key, val)
-        self._set_mechanism_parameters()
+        self._set_mechanism_parameters(e_pas=n_dict['e_pas'],
+                                       ena=n_dict['ena'],
+                                       ek=n_dict['ek'])
 
 
     def init_factors(self):
@@ -88,11 +101,11 @@ class Neuron472299294:
             self.soma[0].insert(mech)
 
 
-    def _set_mechanism_parameters(self):
+    def _set_mechanism_parameters(self, e_pas=-90.582359314, ena=53.0, ek=-107.0):
         from neuron import h
         for sec in self.all:
             sec.Ra = 167.07*self.f_Ra
-            sec.e_pas =  -85 #-90.582359314 #-80  
+            sec.e_pas =  e_pas #-80 #-90.582359314 #-80  
         for sec in self.apic:
             sec.cm = 2.17*self.f_cm
             sec.g_pas = 7.76313565885e-05*self.f_g_pas
@@ -104,8 +117,8 @@ class Neuron472299294:
             sec.g_pas = 1.08526630687e-05*self.f_g_pas
         for sec in self.soma:
             sec.cm = 1.0*self.f_cm
-            sec.ena =  35 #53.0 
-            sec.ek = -107 #107.0  # 95
+            sec.ena =  ena # 45 #53.0 
+            sec.ek = ek #-90 #107.0  # 95
             sec.gbar_Im = 1.23992e-05*self.f_gbar_Im
             sec.gbar_Ih = 0.000331224*self.f_gbar_Ih
             sec.gbar_NaTs = 0.452286*self.f_gbar_NaTs
