@@ -17,7 +17,7 @@ import ast
 import numpy as np
 from scipy.optimize import curve_fit
 from threshold_crossing import count_spikes
-from neuron472299294_250811 import Neuron472299294
+from neuron472299294_250812 import Neuron472299294
 import matplotlib.pyplot as plt
 
 
@@ -140,7 +140,7 @@ def show_ficurve(ax, results, defs=None, defs_ff=None, color='k'):
                 marker='o')
     ax.plot(cur_vals, ffs, label='Simulation', c=color,
             linestyle='dashed', marker='P')
-    ax.set_ylim(-1, 40)
+    ax.set_ylim(-1, 30)
     ax.set_xlim(0, 50)
     return ax
 
@@ -161,6 +161,8 @@ def make_plots(ax, results, all_plots=False):
     return ax
 
 
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Default conditions of the protocol')
     # clamp
@@ -168,7 +170,7 @@ if __name__ == '__main__':
     # reversal potential e_pas=-90.582359314, ena=53.0, ek=-107.0
     parser.add_argument('-e_pas', type=float, help = 'Rev. Pot E passive', default=-75)
     parser.add_argument('-ena', type=float, help = 'Rev. Pot Na', default=30)
-    parser.add_argument('-ek', type=float, help = 'Rev. Pot K', default=-107.0)
+    parser.add_argument('-ek', type=float, help = 'Rev. Pot K', default=-110.0)
     # passive
     parser.add_argument('-Ra', type=float, help = 'Ra factor', default=1)
     parser.add_argument('-g_pas', type=float, help = 'g_pas factor', default=1)
@@ -189,10 +191,10 @@ if __name__ == '__main__':
     parser.add_argument('-gbar_Im', type=float, help = 'gbar_Im', default=1)
     args = parser.parse_args()
     all_vals = vars(args)
+    print(all_vals)
     iclamps = all_vals.pop('IC')
     iclamps_rev = [-15, -10, 0]
     iclamps = iclamps_rev + iclamps   # add for computing inp resistance
-    print(all_vals)
     cell, results, clamp = demo(iclamps, update_dict=all_vals, all_rev=True)
 
     fig = plt.figure(figsize=(40, 20))
@@ -213,9 +215,11 @@ if __name__ == '__main__':
     ax3 = plt.subplot(233)
     #ax3.plot(xx, yy, 'yo', xx, poly1d_fn(xx), '--k')
     #ax3 = show_ficurve(ax3, results[3:])
-    currs=[10, 15, 20, 25, 30, 35]
-    ffs = [0, 0, 0, 8, 11, 11]
-    ax3 = show_ficurve(ax3, results[3:], defs=currs, defs_ff=ffs)
+    # model_test_currs = [10, 15, 20, 25]
+    cur_vals = [0, 5, 10, 15, 20, 25, 30, 35]                                                                                                                                           
+    ffs = [0, 0, 1, 4, 7, 9, 11, 12]
+    
+    ax3 = show_ficurve(ax3, results, defs=cur_vals, defs_ff=ffs)
     
     ax4 = plt.subplot(234)
     make_curr_plots(ax4, results)
