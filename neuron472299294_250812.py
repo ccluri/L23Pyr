@@ -63,7 +63,6 @@ class Neuron472299294:
         else:
             self._set_mechanism_parameters()
 
-
     def init_factors(self):
         self.f_cm = 1
         self.f_g_pas = 1
@@ -80,16 +79,6 @@ class Neuron472299294:
         self.f_gbar_Ca_LVA = 1
         return
         
-        
-    def _print_rn(self):
-        from neuron import h
-        zz = h.Impedance()
-        zz.loc(self.soma[0](0.5))
-        zz.compute(0)
-        rn = zz.input(self.soma[0](0.5))
-        # print('Input resistance is ', rn, 'megohms')
-        return
-        
     def __str__(self):
         if hasattr(self, '_name'):
             return self._name
@@ -104,10 +93,7 @@ class Neuron472299294:
                      u'K_P', u'K_T', u'Kv3_1', u'NaTs', u'Nap', u'SK']:
             self.soma[0].insert(mech)
 
-
-#    def _set_mechanism_parameters(self, e_pas=-90.582359314, ena=53.0, ek=-107.0):
-#    def _set_mechanism_parameters(self, e_pas=-70, ena=30, ek=-107.0):
-    def _set_mechanism_parameters(self, e_pas=-70, ena=30, ek=-110.0):
+    def _set_mechanism_parameters(self, e_pas=-75, ena=30, ek=-110.0):
         from neuron import h
         for sec in self.all:
             sec.Ra = 167.07*self.f_Ra
@@ -140,10 +126,10 @@ class Neuron472299294:
             sec.gbar_Nap = 0.00101181*0.2*0.5*self.f_gbar_Nap
             sec.gbar_K_P = 0.0370931*self.f_gbar_K_P
             sec.gbar_K_T = 0.000133211*self.f_gbar_K_T
-            sec.gbar_SK = 0.000150215*self.f_gbar_SK
+            sec.gbar_SK = 0.000150215*2.25*self.f_gbar_SK
             sec.gbar_Kv3_1 = 0.0857197*self.f_gbar_Kv3_1
             sec.gbar_Ca_HVA = 0.000509044*self.f_gbar_Ca_HVA
-            sec.gbar_Ca_LVA = 0.00616339*self.f_gbar_Ca_LVA
+            sec.gbar_Ca_LVA = 0.00616339*1.75*self.f_gbar_Ca_LVA
             sec.gamma_CaDynamics = 0.000993274
             sec.decay_CaDynamics = 845.244
             #sec.g_pas = 0.000199625*self.f_g_pas

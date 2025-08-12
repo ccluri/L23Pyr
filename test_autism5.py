@@ -128,7 +128,7 @@ def make_curr_plots(ax, results, curr='all'):
     return ax
 
 
-def show_ficurve(ax, results, defs=None, defs_ff=None, color='k'):
+def show_ficurve(ax, results, defs=None, defs_ff=None, color='k', label_add=''):
     ffs = []
     cur_vals = []
     for res in results:
@@ -138,7 +138,7 @@ def show_ficurve(ax, results, defs=None, defs_ff=None, color='k'):
     if defs:
         ax.plot(defs, defs_ff, label='Recording', c='k',
                 marker='o')
-    ax.plot(cur_vals, ffs, label='Simulation', c=color,
+    ax.plot(cur_vals, ffs, label='Simulation' + label_add, c=color,
             linestyle='dashed', marker='P')
     ax.set_ylim(-1, 30)
     ax.set_xlim(0, 50)
