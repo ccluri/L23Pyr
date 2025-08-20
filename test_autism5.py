@@ -140,7 +140,7 @@ def show_ficurve(ax, results, defs=None, defs_ff=None, color='k', label_add=''):
                 marker='o')
     ax.plot(cur_vals, ffs, label='Simulation' + label_add, c=color,
             linestyle='dashed', marker='P')
-    ax.set_ylim(-1, 30)
+    ax.set_ylim(-1, 20)
     ax.set_xlim(0, 50)
     return ax
 

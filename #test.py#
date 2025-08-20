@@ -1,0 +1,35 @@
+min_cell =  [NaT[0], Nap[0], K_P[0], K_T[0], Kv_3_1[0], SK[0], Ca_HVA[0], Ca_LVA[0], Im[0], Ih[0]]
+    max_cell =  [NaT[1], Nap[1], K_P[1], K_T[1], Kv_3_1[1], SK[1], Ca_HVA[1], Ca_LVA[1], Im[1], Ih[1]]
+
+NaT_min, NaT_max = NaT.value
+NaP_min, NaP_max = NaP.value
+K_T_min, N_T_max = K_T.value
+K_P_min, K_P_max = K_P.value
+Kv3_1_min, Kv3_1_max = Kv_3_1.value
+SK_min, SK_max = SK.value
+HVA_min, HVA_max = HVA.value
+LVA_min, LVA_max = LVA.value
+Im_min, Im_max = Im.value
+Ih_min, Ih_max = Ih.value
+
+
+gpas_min, gpas_max = g_pas.value
+        ra_min, ra_max = ra.value      
+        min_c, min_res, clamp = utils.demo([15, 25, 35], {'cm': cm_min, 
+                                                        'g_pas': gpas_min, 
+                                                        'ra': ra_min})
+        max_c, max_res, clamp = utils.demo([15, 25, 35], {'cm': cm_max, 
+                                                         'g_pas': gpas_max, 
+                                                         'ra': ra_max})
+
+
+                max_c, max_res, clp = utils.demo([15, 25, 35], {'gbar_NaTs': NaT_max, 
+                                                        'gbar_Nap': NaP_max, 
+                                                        'gbar_K_P': K_P_max,
+                                                        'gbar_K_T': K_T_max,
+                                                        'gbar_Kv_3_1': Kv3_1_max,
+                                                        'gbar_SK': SK_max,
+                                                        'gbar_Ca_HVA': HVA_max,
+                                                        'gbar_Ca_LVA': LVA_max,
+                                                        'gbar_Ih': Ih_max,
+                                                        'gbar_Im': Im_max})
