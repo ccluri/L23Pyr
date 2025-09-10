@@ -40,6 +40,7 @@ junction_potential = -14.0
 def demo(iapp, update_dict={}, all_rev=False):
     """demo program performs current clamp experiments"""
     from neuron import h
+    h.initnrn()
     h.celsius = 34.0
     cell = Neuron472299294(name='neuron', shrink_by=0.7)
     #update values
@@ -89,7 +90,8 @@ def demo(iapp, update_dict={}, all_rev=False):
         results.append([tt, vv, ich_currs, amp])
     return cell, results, clamp
 
-def comp_passive_props(results):
+def comp_passive_props(results, ax=None):
+    # xx, yy, tt, y_tau = comp_passive_props(results)
     xx = []
     yy = []
     y_tau = []
@@ -100,7 +102,17 @@ def comp_passive_props(results):
         v_arr = np.array(vv)
         yy.append(np.mean(v_arr[(t_arr>1) & (t_arr<1.2)]))
         y_tau.append(v_arr[(t_arr>0.2) & (t_arr<=0.3)])
-    return xx, yy, t_arr[(t_arr>0.2) & (t_arr<=0.3)], y_tau
+
+    tt_ref = t_arr[(t_arr>0.2) & (t_arr<=0.3)]
+    popt, pcov = curve_fit(exp_fit, tt_ref-0.2, y_tau[1])
+    coef = np.polyfit(xx, yy, 1)
+    poly1d_fn = np.poly1d(coef)
+    print('Rin, tau', coef[0], popt[1])
+    print('RMP (mV)', np.mean(np.array(results[2][1])))
+    if ax:
+        ax.plot(tt_ref, y_tau[1])
+        ax.plot(tt_ref, exp_fit(tt_ref-0.2, *popt), 'g--')
+    return coef[0], popt[1], np.mean(np.array(results[2][1]))
 
 
 def exp_fit(x, a, b, c):
@@ -128,7 +140,7 @@ def make_curr_plots(ax, results, curr='all'):
     return ax
 
 
-def show_ficurve(ax, results, defs=None, defs_ff=None, color='k', label_add=''):
+def show_ficurve(ax, results, defs=None, defs_ff=None, color='k', label='Simulation', label_add='', ls='dashed', marker='P'):
     ffs = []
     cur_vals = []
     for res in results:
@@ -138,10 +150,12 @@ def show_ficurve(ax, results, defs=None, defs_ff=None, color='k', label_add=''):
     if defs:
         ax.plot(defs, defs_ff, label='Recording', c='k',
                 marker='o')
-    ax.plot(cur_vals, ffs, label='Simulation' + label_add, c=color,
-            linestyle='dashed', marker='P')
+    ax.plot(cur_vals, ffs, label=label+label_add, c=color,
+            linestyle=ls, marker=marker)
     ax.set_ylim(-1, 20)
     ax.set_xlim(0, 50)
+    print('Current clamps: ', cur_vals)
+    print('Firing freq:', ffs)
     return ax
 
 
@@ -152,12 +166,11 @@ def make_plots(ax, results, all_plots=False):
         new_results = results[3:]
     for res in new_results:
         tt, vv, ichs, amp = res
-       #print(np.mean(vv[np.where(tt>1) & np.where(tt<1.2)]))
         ax.plot(tt, vv, label=str(amp)+' pA')
     ax.set_ylim(-80, 50)
     ax.legend()
     ax.set_xlabel('Time (second)')
-    ax.set_ylabel('Membrane potential')
+    ax.set_ylabel('Membrane potential (mV)')
     return ax
 
 
@@ -201,16 +214,8 @@ if __name__ == '__main__':
     ax1 = plt.subplot(231)
     make_plots(ax1, results, all_plots=False)
 
-    xx, yy, tt, y_tau = comp_passive_props(results)
-    popt, pcov = curve_fit(exp_fit, tt-0.2, y_tau[1])
-    coef = np.polyfit(xx, yy, 1)
-    poly1d_fn = np.poly1d(coef)
-    print('Rin, tau', coef[0], popt[1])
-    print('RMP (mV)', np.mean(np.array(results[2][1])))
-
     ax2 = plt.subplot(232)
-    ax2.plot(tt, y_tau[1])
-    ax2.plot(tt, exp_fit(tt-0.2, *popt), 'g--')
+    R_input, tau_mem, RMP = comp_passive_props(results, ax2)
 
     ax3 = plt.subplot(233)
     #ax3.plot(xx, yy, 'yo', xx, poly1d_fn(xx), '--k')

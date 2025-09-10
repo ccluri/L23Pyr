@@ -1,4 +1,4 @@
-python test_autism5.py -IC='[10, 15, 20, 25, 30, 35]' -gbar_SK=2.25 -gbar_Ca_LVA=1.75 
+python test_autism5.py -IC='[10, 15, 20, 25, 30, 35]'
 {'IC': [10, 15, 20, 25, 30, 35], 'e_pas': -75, 'ena': 30, 'ek': -110.0, 'Ra': 1, 'g_pas': 1, 'cm': 1, 'gbar_NaTs': 1, 'gbar_Nap': 1, 'gbar_K_P': 1, 'gbar_K_T': 1, 'gbar_Kv3_1': 1, 'gbar_SK': 2.25, 'gbar_Ca_HVA': 1, 'gbar_Ca_LVA': 1.75, 'gbar_Ih': 1, 'gbar_Im': 1}
 NEURON: unable to open font "*helvetica-medium-r-normal*--14*", using "fixed"
 Shrunk by 0.7
