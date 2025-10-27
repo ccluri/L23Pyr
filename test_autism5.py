@@ -154,8 +154,39 @@ def show_ficurve(ax, results, defs=None, defs_ff=None, color='k', label='Simulat
             linestyle=ls, marker=marker)
     ax.set_ylim(-1, 20)
     ax.set_xlim(0, 50)
-    print('Current clamps: ', cur_vals)
-    print('Firing freq:', ffs)
+    #print('Current clamps: ', cur_vals)
+    #print('Firing freq:', ffs)
+    return ax
+
+def show_ficurve_special(ax, color='g', label='hnrnpu'):
+    if label == 'hnrnpu':
+        hnrnpu = [0,0,0.25,1.83333333333333,3.91666666666667,6.25,9.33333333333333,11.9166666666667] #,13.5, 14.4166666666667, 15.3333333333333]
+        currs_hnrnpu = [0,5,10,15,20,25,30,35] # ,40,45,50]
+        ax.plot(currs_hnrnpu, hnrnpu, c=color, label=label)
+    elif label == 'bckdk':
+        bckdk = [0, 0.0714285714285714, 2.78571428571429 ,7
+                 ,10.2142857142857 ,12.1428571428571 ,12.2142857142857, 12.5,] 
+                 #,11.5 ,10.7142857142857 ,8.07142857142857]
+        currs_bckdk = [0,5,10,15,20,25,30,35] # ,40,45,50]
+        ax.plot(currs_bckdk, bckdk, c=color, label=label)
+    elif label == 'trip12':
+        trip12 = [0,0.3, 1.5, 3.7, 6.25, 9.1, 10.8, 11.85] #,
+                  #12.2, 12.15, 11.8]
+        currs_trip12 = [0,5,10,15,20,25,30,35] # ,40,45,50]
+        ax.plot(currs_trip12, trip12, c=color, label=label)
+    elif label == 'usp7':
+        usp7 = [0, 0.166666666666667, 1.27777777777778,
+                4.16666666666667, 7.72222222222222, 10.3333333333333,
+                12.2222222222222, 13.8888888888889] # , 
+                # 15.2777777777778, 15.8333333333333, 16.6666666666667,]
+        currs_usp7 = [0,5,10,15,20,25,30,35] # ,40,45,50]
+        ax.plot(currs_usp7, usp7, c=color, label=label)
+    elif label == 'wt':
+        wt_rec = [0, 0, 1, 4, 7, 9, 11, 12]
+        curr_wt = [0, 5, 10, 15, 20, 25, 30, 35]
+        ax.plot(curr_wt, wt_rec, c=color, label=label)
+    else:
+        pass
     return ax
 
 

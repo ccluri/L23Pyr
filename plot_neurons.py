@@ -46,15 +46,16 @@ if __name__ == '__main__':
     for pts in point_list:
         pt1, pt2 = pts
         ax = plot_line_between_3d_points(ax, pt1, pt2)
-    point_list = each_pair(nfname, skiprows=4)
-    for pts in point_list:
-        pt1, pt2 = pts
-        ax = plot_line_between_3d_points(ax, pt1, pt2, color='r')
+        
+    # point_list = each_pair(nfname, skiprows=4)
+    # for pts in point_list:
+    #     pt1, pt2 = pts
+    #     ax = plot_line_between_3d_points(ax, pt1, pt2, color='r')
         
     ax.set_xlabel('X-axis')
     ax.set_ylabel('Y-axis')
     ax.set_zlabel('Z-axis')
-
+    ax.set_axis_off()
     # plt.savefig('3d_line_plot.png')
     # #plt.close(fig)
     plt.show()

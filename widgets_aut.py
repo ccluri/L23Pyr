@@ -77,14 +77,14 @@ pick_gbar_NaTs = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                      style=style,
                                      layout=widgets.Layout(width='400px'))
 pick_gbar_NaTs_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_NaTs:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 pick_gbar_Nap = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     description='gbar_Nap:',
@@ -95,14 +95,14 @@ pick_gbar_Nap = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     style=style,
                                     layout=widgets.Layout(width='400px'))
 pick_gbar_Nap_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_Nap:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 # Active K currents
 pick_gbar_K_P = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
@@ -112,16 +112,16 @@ pick_gbar_K_P = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                      orientation='horizontal',
                                      readout=True,
                                      style=style,
-                                     layout=widgets.Layout(width='400px'))
+                                     layout=widgets.Layout(width='600px'))
 pick_gbar_K_P_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_K_P:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 pick_gbar_K_T = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     description='gbar_K_T:',
@@ -130,16 +130,16 @@ pick_gbar_K_T = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     orientation='horizontal',
                                     readout=True,
                                     style=style,
-                                    layout=widgets.Layout(width='400px'))
+                                    layout=widgets.Layout(width='600px'))
 pick_gbar_K_T_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_K_T:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 pick_gbar_SK = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     description='gbar_SK:',
@@ -148,16 +148,16 @@ pick_gbar_SK = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     orientation='horizontal',
                                     readout=True,
                                     style=style,
-                                    layout=widgets.Layout(width='400px'))
+                                    layout=widgets.Layout(width='600px'))
 pick_gbar_SK_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_SK:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 
 pick_gbar_Kv_3_1 = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
@@ -167,16 +167,16 @@ pick_gbar_Kv_3_1 = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     orientation='horizontal',
                                     readout=True,
                                     style=style,
-                                    layout=widgets.Layout(width='400px'))
+                                    layout=widgets.Layout(width='600px'))
 pick_gbar_Kv_3_1_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_Kv_3_1:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 # Active Ca 
 pick_gbar_Ca_HVA = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
@@ -186,16 +186,16 @@ pick_gbar_Ca_HVA = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     orientation='horizontal',
                                     readout=True,
                                     style=style,
-                                    layout=widgets.Layout(width='400px'))
+                                    layout=widgets.Layout(width='600px'))
 pick_gbar_Ca_HVA_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_Ca_HVA:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 pick_gbar_Ca_LVA = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     description='gbar_Ca_LVA:',
@@ -204,16 +204,16 @@ pick_gbar_Ca_LVA = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     orientation='horizontal',
                                     readout=True,
                                     style=style,
-                                    layout=widgets.Layout(width='400px'))
+                                    layout=widgets.Layout(width='600px'))
 pick_gbar_Ca_LVA_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_Ca_LVA:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 # Active Other
 pick_gbar_Im = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
@@ -223,16 +223,16 @@ pick_gbar_Im = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     orientation='horizontal',
                                     readout=True,
                                     style=style,
-                                    layout=widgets.Layout(width='400px'))
+                                    layout=widgets.Layout(width='600px'))
 pick_gbar_Im_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_Im:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 pick_gbar_Ih = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     description='gbar_Ih:',
@@ -241,16 +241,16 @@ pick_gbar_Ih = widgets.FloatSlider(value=1, min=0.1, max=2, step=0.1,
                                     orientation='horizontal',
                                     readout=True,
                                     style=style,
-                                    layout=widgets.Layout(width='400px'))
+                                    layout=widgets.Layout(width='600px'))
 pick_gbar_Ih_range = widgets.FloatRangeSlider(value=[1, 1],
-                                         min=0.1, max=4, step=0.1,
+                                         min=0.3, max=3, step=0.01,
                                          description='gbar_Ih:',
                                          disabled=False,
                                          continuous_update=False,
                                          orientation='horizontal',
                                          readout=True,
-                                         readout_format='.1f',
-                                         style=style,layout=widgets.Layout(width='400px'))
+                                         readout_format='.2f',
+                                         style=style,layout=widgets.Layout(width='600px'))
 
 activebutton = widgets.Button(description='Compute',
                               disabled=False,
